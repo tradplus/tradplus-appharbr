@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TradPlusDemo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_reward">RewardActivity</string>
+    <string name="title_activity_interstitial">InterstitialActivity</string>
+    <string name="title_activity_native">NativeActivity</string>
+    <string name="title_activity_Banner">BannerActivity</string>
+</resources>
