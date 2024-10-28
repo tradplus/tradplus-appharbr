@@ -12,8 +12,6 @@ public class MyApplication extends Application {
         super.onCreate();
         application = this;
 
-
-        // TradPlus only for Test
-        TradPlusSdk.initSdk(getApplicationContext(),"44273068BFF4D8A8AFF3D5B11CBA3ADE");
+        TradPlusSdk.initSdk(getApplicationContext(),"0F5205389263E0CC82D109E9E55D2964");
     }
 }
