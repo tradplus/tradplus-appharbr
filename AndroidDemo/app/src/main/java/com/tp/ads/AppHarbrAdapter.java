@@ -1,4 +1,4 @@
-package com.appharbr.adapter.custom;
+package com.tp.ads;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.appharbr.adapter.custom.AppHarbrCustomAdapter;
 import com.appharbr.sdk.adapter.AdQualityAdapterManager;
 import com.appharbr.sdk.configuration.AHSdkConfiguration;
 import com.appharbr.sdk.configuration.AHSdkDebug;
@@ -15,40 +16,39 @@ import com.appharbr.sdk.engine.AppHarbr;
 import com.appharbr.sdk.engine.InitializationFailureReason;
 import com.appharbr.sdk.engine.listeners.OnAppHarbrInitializationCompleteListener;
 import com.tradplus.ads.base.adapter.TPBaseAdapter;
-import com.tradplus.ads.base.adapter.banner.TPBannerAdImpl;
 import com.tradplus.ads.base.bean.TPBaseAd;
 import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
 import com.tradplus.ads.mgr.reward.TPCustomRewardAd;
-import com.tradplus.ads.mgr.splash.TPCustomSplashAd;
 
-public class AppHarbrCustomAdapter {
+public class AppHarbrAdapter {
 
     private final static String TAG = "AppHarbrSDK";
-    private static AppHarbrCustomAdapter sInstance;
-    private AdQualityAdapterManager adQualityAdapterManager;
+    private static AppHarbrAdapter sInstance;
+    private AppHarbrCustomAdapter appHarbrCustomAdapter;
 
-    public synchronized static AppHarbrCustomAdapter getInstance() {
+    public synchronized static AppHarbrAdapter getInstance() {
         if (sInstance == null) {
-            sInstance = new AppHarbrCustomAdapter();
+            sInstance = new AppHarbrAdapter();
         }
         return sInstance;
     }
 
 
-    public AdQualityAdapterManager initializeSDK(Context context) {
-        if (AppHarbr.isInitialized()) {
-            return adQualityAdapterManager;
+    public AppHarbrCustomAdapter initializeSDK(Context context) {
+        if (appHarbrCustomAdapter != null && appHarbrCustomAdapter.isAppHarbrReady()) {
+            return appHarbrCustomAdapter;
         }
 
         Log.i(TAG, "initializeSDK : ");
+
         AHSdkConfiguration ahSdkConfiguration = new AHSdkConfiguration
                 .Builder("dcba05ce-cf66-4113-9f2c-fd6e9f24a850")
-                .withTimeout(1000l)
-                .withTargetedNetworks(new AdSdk[] {AdSdk.CUSTOM,AdSdk.ADMOB, AdSdk.PANGLE,AdSdk.BIGO_ADS,AdSdk.MINTEGRAL})
                 .withDebugConfig(new AHSdkDebug(true))
                 .build();
 
-        AppHarbr.initialize(context, ahSdkConfiguration, new OnAppHarbrInitializationCompleteListener() {
+        appHarbrCustomAdapter = AppHarbrCustomAdapter.INSTANCE;
+
+        appHarbrCustomAdapter.initializeSDK(context, ahSdkConfiguration, new OnAppHarbrInitializationCompleteListener() {
             @Override
             public void onSuccess() {
                 Log.i(TAG, "AdQualityAdapter onSuccess");
@@ -63,9 +63,8 @@ public class AppHarbrCustomAdapter {
                 }
             }
         });
-        adQualityAdapterManager = AppHarbr.useAsDirectMediation();
 
-        return adQualityAdapterManager;
+        return appHarbrCustomAdapter;
     }
 
     public Object getNetworkObject(Object object) {

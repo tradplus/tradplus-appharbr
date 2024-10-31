@@ -14,24 +14,27 @@ import com.appharbr.sdk.adapter.AdQualityAdapterManager;
 import com.appharbr.sdk.adapter.AdQualityListener;
 import com.appharbr.sdk.adapter.DirectMediationAdNotVerifyReason;
 import com.appharbr.sdk.adapter.VerificationStatus;
+import com.appharbr.sdk.configuration.AHSdkConfiguration;
+import com.appharbr.sdk.configuration.AHSdkDebug;
 import com.appharbr.sdk.engine.AdBlockReason;
-import com.appharbr.sdk.engine.AdSdk;
+import com.appharbr.sdk.engine.InitializationFailureReason;
 import com.appharbr.sdk.engine.adformat.AdFormat;
-import com.bytedance.sdk.openadsdk.api.interstitial.PAGInterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.appharbr.sdk.engine.listeners.OnAppHarbrInitializationCompleteListener;
 import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
+import com.tradplus.ads.base.config.request.BiddingRequestInfo;
 import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
 import com.tradplus.ads.open.interstitial.InterstitialAdListener;
 import com.tradplus.ads.open.interstitial.TPInterstitial;
 
 import java.util.HashMap;
 
+
 public class InterstitialActivity extends Activity {
 
     private static final String TAG = "AppHarbrSDK";
     private TPInterstitial tpInterstitial;
-    private AdQualityAdapterManager adQualityAdapterManager;
+    private AppHarbrCustomAdapter appHarbrCustomAdapter;
     private TPCustomInterstitialAd customInterstitialAd;
     private Object networkObject;
     private TextView textView;
@@ -42,17 +45,17 @@ public class InterstitialActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        adQualityAdapterManager = AppHarbrCustomAdapter.getInstance().initializeSDK(this);
+        appHarbrCustomAdapter = AppHarbrAdapter.getInstance().initializeSDK(this);
 
         initAndRequestAd();
 
         findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkObject = AppHarbrCustomAdapter.getInstance().getNetworkObject(customInterstitialAd);
-                if (adQualityAdapterManager != null && networkObject != null) {
+                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(customInterstitialAd);
+                if (appHarbrCustomAdapter != null && networkObject != null) {
                     Log.i(TAG, "verifyAd networkObject: " + networkObject);
-                    VerificationStatus verificationStatus = adQualityAdapterManager.verifyAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
+                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
                             "", "", new HashMap<>(), adQualityListener);
                     textView.setText("-----verificationStatus : " + verificationStatus.name() + "-----");
                 }
@@ -64,8 +67,8 @@ public class InterstitialActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (customInterstitialAd != null) {
-                    if (adQualityAdapterManager != null && networkObject != null) {
-                        adQualityAdapterManager.displayingAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
+                    if (appHarbrCustomAdapter != null && networkObject != null) {
+                        appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
                                 "", "", new HashMap<>(), adQualityListener);
                     }
                     // show ad
@@ -90,7 +93,7 @@ public class InterstitialActivity extends Activity {
     private final InterstitialAdListener adListener = new InterstitialAdListener() {
         @Override
         public void onAdLoaded(TPAdInfo tpAdInfo) {
-            adNetworkId = AppHarbrCustomAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
+            adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
             customInterstitialAd = tpInterstitial.getCustomInterstitialAd();
             textView.setText("-----ad onAdLoaded , can verifyAd-----");
@@ -110,16 +113,16 @@ public class InterstitialActivity extends Activity {
         @Override
         public void onAdClicked(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClicked: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClicked(networkObject, AdFormat.INTERSTITIAL);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClicked(networkObject, AdFormat.INTERSTITIAL);
             }
         }
 
         @Override
         public void onAdClosed(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClosed: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClosed(networkObject, AdFormat.INTERSTITIAL);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClosed(networkObject, AdFormat.INTERSTITIAL);
             }
 
         }

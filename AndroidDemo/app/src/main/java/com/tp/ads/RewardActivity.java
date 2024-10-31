@@ -16,12 +16,9 @@ import com.appharbr.sdk.adapter.DirectMediationAdNotVerifyReason;
 import com.appharbr.sdk.adapter.VerificationStatus;
 import com.appharbr.sdk.engine.AdBlockReason;
 import com.appharbr.sdk.engine.adformat.AdFormat;
-import com.tradplus.ads.base.adapter.reward.TPRewardAdapter;
 import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
-import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
 import com.tradplus.ads.mgr.reward.TPCustomRewardAd;
-import com.tradplus.ads.open.interstitial.TPInterstitial;
 import com.tradplus.ads.open.reward.RewardAdListener;
 import com.tradplus.ads.open.reward.TPReward;
 
@@ -31,7 +28,7 @@ public class RewardActivity extends Activity{
 
     private static final String TAG = "AppHarbrSDK";
     private TPReward tpReward;
-    private AdQualityAdapterManager adQualityAdapterManager;
+    private AppHarbrCustomAdapter appHarbrCustomAdapter;
     private TPCustomRewardAd tpCustomRewardAd;
     private Object networkObject;
     private TextView textView;
@@ -42,17 +39,17 @@ public class RewardActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        adQualityAdapterManager = AppHarbrCustomAdapter.getInstance().initializeSDK(this);
+        appHarbrCustomAdapter = AppHarbrAdapter.getInstance().initializeSDK(this);
 
         initAndRequestAd();
 
         findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkObject = AppHarbrCustomAdapter.getInstance().getNetworkObject(tpCustomRewardAd);
-                if (adQualityAdapterManager != null && networkObject != null) {
+                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(tpCustomRewardAd);
+                if (appHarbrCustomAdapter != null && networkObject != null) {
                     Log.i(TAG, "verifyAd networkObject: " + networkObject);
-                    VerificationStatus verificationStatus = adQualityAdapterManager.verifyAd(networkObject, AdFormat.REWARDED, "", adNetworkId, "", "",
+                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.REWARDED, "", adNetworkId, "", "",
                             "", "", new HashMap<>(), adQualityListener);
                     textView.setText("-----verificationStatus : " + verificationStatus.name() + "-----");
                 }
@@ -63,8 +60,8 @@ public class RewardActivity extends Activity{
             @Override
             public void onClick(View v) {
                 if (tpCustomRewardAd != null) {
-                    if (adQualityAdapterManager != null && networkObject != null) {
-                        adQualityAdapterManager.displayingAd(networkObject, AdFormat.REWARDED, "", adNetworkId, "", "",
+                    if (appHarbrCustomAdapter != null && networkObject != null) {
+                        appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.REWARDED, "", adNetworkId, "", "",
                                 "", "", new HashMap<>(), adQualityListener);
                     }
                     // show ad
@@ -80,7 +77,7 @@ public class RewardActivity extends Activity{
         textView.setText("-----initialize AppHarbr-----");
 
 
-        tpReward  = new TPReward( this, AdUnitIds.reward);
+        tpReward  = new TPReward(this, AdUnitIds.reward);
         tpReward.setAutoLoadCallback(true);
         tpReward.setAdListener(adListener);
         tpReward.loadAd();
@@ -89,7 +86,7 @@ public class RewardActivity extends Activity{
     private final RewardAdListener adListener = new RewardAdListener() {
         @Override
         public void onAdLoaded(TPAdInfo tpAdInfo) {
-            adNetworkId = AppHarbrCustomAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
+            adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
             tpCustomRewardAd = tpReward.getCustomRewardAd();
             textView.setText("-----ad onAdLoaded , can verifyAd-----");
@@ -98,8 +95,8 @@ public class RewardActivity extends Activity{
         @Override
         public void onAdClicked(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClicked: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClicked(networkObject, AdFormat.REWARDED);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClicked(networkObject, AdFormat.REWARDED);
             }
         }
 
@@ -116,8 +113,8 @@ public class RewardActivity extends Activity{
         @Override
         public void onAdClosed(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClosed: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClosed(networkObject, AdFormat.REWARDED);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClosed(networkObject, AdFormat.REWARDED);
             }
         }
 

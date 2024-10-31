@@ -21,14 +21,13 @@ import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
 import com.tradplus.ads.base.bean.TPBaseAd;
 import com.tradplus.ads.mgr.nativead.TPCustomNativeAd;
-import com.tradplus.ads.open.banner.TPBanner;
 import com.tradplus.ads.open.nativead.NativeAdListener;
 import com.tradplus.ads.open.nativead.TPNative;
 
 public class NativeActivity extends Activity{
 
     private static final String TAG = "AppHarbrSDK";
-    private AdQualityAdapterManager adQualityAdapterManager;
+    private AppHarbrCustomAdapter appHarbrCustomAdapter;
     private TPNative tpNative;
     private Object networkObject;
     private TextView textView;
@@ -41,15 +40,15 @@ public class NativeActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
 
-        adQualityAdapterManager = AppHarbrCustomAdapter.getInstance().initializeSDK(this);
+        appHarbrCustomAdapter = AppHarbrAdapter.getInstance().initializeSDK(this);
         initRequestAd();
 
         findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (adQualityAdapterManager != null && networkObject != null) {
+                if (appHarbrCustomAdapter != null && networkObject != null) {
                     Log.i(TAG, "verifyAd networkObject: " + networkObject);
-                    VerificationStatus verificationStatus = adQualityAdapterManager.verifyAd(networkObject, AdFormat.NATIVE, "", adNetworkId, "", "",
+                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.NATIVE, "", adNetworkId, "", "",
                             "", "", null, adQualityListener);
                     textView.setText("-----verificationStatus : " + verificationStatus.name() + "-----");
                 }
@@ -59,8 +58,8 @@ public class NativeActivity extends Activity{
         findViewById(R.id.btn_show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (adQualityAdapterManager != null && networkObject != null) {
-                    adQualityAdapterManager.displayingAd(networkObject, AdFormat.NATIVE, "", adNetworkId, "", "",
+                if (appHarbrCustomAdapter != null && networkObject != null) {
+                    appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.NATIVE, "", adNetworkId, "", "",
                             "", "", null, adQualityListener);
                 }
                 nativeAd.showAd(adContainer,R.layout.native_ad_list_item,"");
@@ -82,7 +81,7 @@ public class NativeActivity extends Activity{
     private final NativeAdListener mNativeAdListener = new NativeAdListener() {
         @Override
         public void onAdLoaded(TPAdInfo tpAdInfo, TPBaseAd tpBaseAd) {
-            adNetworkId = AppHarbrCustomAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
+            adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
             nativeAd = tpNative.getNativeAd();
             networkObject = nativeAd.getNativeAd().getNetworkObj();
@@ -92,8 +91,8 @@ public class NativeActivity extends Activity{
         @Override
         public void onAdClicked(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClicked: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClicked(networkObject, AdFormat.NATIVE);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClicked(networkObject, AdFormat.NATIVE);
             }
         }
 
@@ -115,8 +114,8 @@ public class NativeActivity extends Activity{
         @Override
         public void onAdClosed(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClosed: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClosed(networkObject, AdFormat.NATIVE);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClosed(networkObject, AdFormat.NATIVE);
             }
             adContainer.removeAllViews();
         }

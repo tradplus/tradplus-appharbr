@@ -58,8 +58,19 @@ dependencies {
     implementation libs.ui.tooling.preview
     implementation libs.material3
 
+//    implementation 'com.github.appharbr:appharbr-android-sdk:2.21.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'androidx.lifecycle:lifecycle-common:2.5.1'
+
+    implementation files('libs/AppHarbrCustomAdapter.aar')
+    implementation files('libs/AppHarbrSDK.aar')
+
+
     implementation "androidx.webkit:webkit:1.9.0"
-    implementation 'com.github.appharbr:appharbr-android-sdk:2.21.1'
+
 
     // TradPlus
     implementation 'com.tradplusad:tradplus:12.5.10.1'
@@ -83,6 +94,10 @@ dependencies {
     implementation 'com.mbridge.msdk.oversea:mbnativeadvanced:16.8.31'
     implementation 'com.mbridge.msdk.oversea:newinterstitial:16.8.31'
     implementation 'com.mbridge.msdk.oversea:mbbid:16.8.31'
+
+    // Bigo
+    implementation 'com.bigossp:bigo-ads:4.9.1'
+    implementation 'com.tradplusad:tradplus-bigo:57.12.5.10.1'
 
     androidTestImplementation platform(libs.compose.bom)
     androidTestImplementation libs.ui.test.junit4

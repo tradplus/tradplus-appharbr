@@ -1,7 +1,5 @@
 package com.tp.ads;
 
-import static com.appharbr.sdk.adapter.Constant.AD_SIZE_HEIGHT;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,13 +19,9 @@ import com.appharbr.sdk.adapter.DirectMediationAdNotVerifyReason;
 import com.appharbr.sdk.adapter.VerificationStatus;
 import com.appharbr.sdk.engine.AdBlockReason;
 import com.appharbr.sdk.engine.adformat.AdFormat;
-import com.tradplus.ads.base.adapter.banner.TPBannerAdImpl;
 import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
 import com.tradplus.ads.base.bean.TPBaseAd;
-import com.tradplus.ads.common.serialization.JSON;
-import com.tradplus.ads.mgr.banner.BannerMgr;
-import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
 import com.tradplus.ads.open.banner.BannerAdListener;
 import com.tradplus.ads.open.banner.TPBanner;
 
@@ -36,7 +30,7 @@ import java.util.HashMap;
 public class BannerActivity extends Activity{
 
     private static final String TAG = "AppHarbrSDK";
-    private AdQualityAdapterManager adQualityAdapterManager;
+    private AppHarbrCustomAdapter appHarbrCustomAdapter;
     private TPBaseAd tpBaseAd;
     private Object networkObject;
     private TextView textView;
@@ -49,7 +43,7 @@ public class BannerActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
 
-        adQualityAdapterManager = AppHarbrCustomAdapter.getInstance().initializeSDK(this);
+        appHarbrCustomAdapter = AppHarbrAdapter.getInstance().initializeSDK(this);
         initRequestAd();
 
         HashMap<String, Object> extraData = new HashMap<>();
@@ -59,10 +53,10 @@ public class BannerActivity extends Activity{
         findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkObject = AppHarbrCustomAdapter.getInstance().getNetworkObject(tpBaseAd);
-                if (adQualityAdapterManager != null && networkObject != null) {
+                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(tpBaseAd);
+                if (appHarbrCustomAdapter != null && networkObject != null) {
                     Log.i(TAG, "verifyAd networkObject: " + networkObject);
-                    VerificationStatus verificationStatus = adQualityAdapterManager.verifyAd(networkObject, AdFormat.BANNER, "", adNetworkId, "", "",
+                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.BANNER, "", adNetworkId, "", "",
                             "", "", extraData, adQualityListener);
                     textView.setText("-----verificationStatus : " + verificationStatus.name() + "-----");
                 }
@@ -73,8 +67,8 @@ public class BannerActivity extends Activity{
             @Override
             public void onClick(View v) {
                 if (networkObject != null) {
-                    if (adQualityAdapterManager != null && networkObject != null) {
-                        adQualityAdapterManager.displayingAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
+                    if (appHarbrCustomAdapter != null && networkObject != null) {
+                        appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
                                 "", "", extraData, adQualityListener);
                     }
 
@@ -107,7 +101,7 @@ public class BannerActivity extends Activity{
     private final BannerAdListener mBannerAdListener = new BannerAdListener() {
         @Override
         public void onAdLoaded(TPAdInfo tpAdInfo) {
-            adNetworkId = AppHarbrCustomAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
+            adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
             tpBaseAd = tpBanner.getBannerAd();
             textView.setText("-----ad onAdLoaded , can verifyAd-----");
@@ -116,8 +110,8 @@ public class BannerActivity extends Activity{
         @Override
         public void onAdClicked(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClicked: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClicked(networkObject,AdFormat.BANNER);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClicked(networkObject,AdFormat.BANNER);
             }
         }
 
@@ -139,8 +133,8 @@ public class BannerActivity extends Activity{
         @Override
         public void onAdClosed(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClosed: ");
-            if (adQualityAdapterManager != null && networkObject != null) {
-                adQualityAdapterManager.adClosed(networkObject,AdFormat.BANNER);
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClosed(networkObject,AdFormat.BANNER);
             }
         }
 
