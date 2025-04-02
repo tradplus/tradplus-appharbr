@@ -25,7 +25,7 @@
         }];
     }
     
-    NSDictionary *configuration = @{AppHarbrConfigurationKeys.debug:@(YES)};
+    NSDictionary *configuration = @{AppHarbrConfigurationKeys.debug:@(YES),AppHarbrConfigurationKeys.timeOut:@(60)};
     [[AppHarbrAdQuality shared] initializeSdkWithApiKey:@"1f53bd8b-785e-4b83-b982-c96016c6d108" directMediationSdk:AdSdkCustom configuration:configuration completion:^(NSError * _Nullable error) {
         if(error != nil)
         {

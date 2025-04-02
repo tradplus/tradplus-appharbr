@@ -19,6 +19,10 @@
             return AdSdkFacebook;
         case 2:
             return AdSdkAdMob;
+        case 5:
+            return AdSdkUnity;
+        case 7:
+            return AdSdkVungle;
         case 9:
             return AdSdkAppLovin;
         case 10:
@@ -33,7 +37,8 @@
             return AdSdkPangle;
         case 48:
             return AdSdkGam;
-            
+        case 57:
+            return AdSdkBigoAds;
         default:
             return AdSdkNone;
     }

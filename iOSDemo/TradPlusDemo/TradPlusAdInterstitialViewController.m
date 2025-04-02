@@ -26,14 +26,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = self.name;
     self.interstitial = [[TradPlusAdInterstitial alloc] init];
     self.interstitial.delegate = self;
-    [self.interstitial setAdUnitID:@"51F8E9A8C8C0A48AAC027E7284DDC216"];
+    [self.interstitial setAdUnitID:self.pid];
 }
 
 - (IBAction)loadAct:(id)sender
 {
-    //加载
     self.logLabel.text = @"start load";
     [self.interstitial loadAd];
 }
@@ -44,12 +44,14 @@
     self.interstitialObject = [self.interstitial getReadyInterstitialObject];
     if(self.interstitialObject != nil)
     {
+        self.logLabel.text = @"verifying";
         id object = self.interstitialObject.interstitialAdObject;
         NSLog(@"object %@",object);
         if(object != nil)
         {
             self.didShow = NO;
             NSInteger sdkID = [TPDemoTool getAHSDKID:self.interstitialObject.channel_id];
+            NSLog(@"%@",@(sdkID));
             [[AppHarbrAdQuality shared] verifyAdWithAdObject:object adFormat:AHAdFormatInterstitial adContent:nil adNetworkSdk:sdkID mediationUnitId:nil adNetworkUnitId:nil mediationCID:nil adNetworkCID:nil extraData:nil delegate:self];
         }
     }

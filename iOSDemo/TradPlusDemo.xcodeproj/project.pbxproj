@@ -21,6 +21,8 @@
 		5A2F261B26CB57C300CAD358 /* TPNativeTemplate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2F261826CB57C300CAD358 /* TPNativeTemplate.xib */; };
 		5A98A01B26CB58D200C11B85 /* TradPlusAdNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A98A01926CB58D200C11B85 /* TradPlusAdNativeViewController.m */; };
 		5A98A01C26CB58D200C11B85 /* TradPlusAdNativeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A98A01A26CB58D200C11B85 /* TradPlusAdNativeViewController.xib */; };
+		5AA48FC42D9CEA96007D1B96 /* TPListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA48FC22D9CEA96007D1B96 /* TPListViewController.m */; };
+		5AA48FC52D9CEA96007D1B96 /* TPListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AA48FC32D9CEA96007D1B96 /* TPListViewController.xib */; };
 		5AE6C5B22750C4D900B0AD17 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE6C5B12750C4D900B0AD17 /* File.swift */; };
 		5AF1AC622705B830006E2645 /* TradPlusAdInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AF1AC5F2705B830006E2645 /* TradPlusAdInterstitialViewController.xib */; };
 		5AF1AC632705B830006E2645 /* TradPlusAdInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF1AC612705B830006E2645 /* TradPlusAdInterstitialViewController.m */; };
@@ -58,6 +60,9 @@
 		5A98A01826CB58D200C11B85 /* TradPlusAdNativeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradPlusAdNativeViewController.h; sourceTree = "<group>"; };
 		5A98A01926CB58D200C11B85 /* TradPlusAdNativeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TradPlusAdNativeViewController.m; sourceTree = "<group>"; };
 		5A98A01A26CB58D200C11B85 /* TradPlusAdNativeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradPlusAdNativeViewController.xib; sourceTree = "<group>"; };
+		5AA48FC12D9CEA96007D1B96 /* TPListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPListViewController.h; sourceTree = "<group>"; };
+		5AA48FC22D9CEA96007D1B96 /* TPListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPListViewController.m; sourceTree = "<group>"; };
+		5AA48FC32D9CEA96007D1B96 /* TPListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TPListViewController.xib; sourceTree = "<group>"; };
 		5AE6C5B12750C4D900B0AD17 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		5AF1AC5F2705B830006E2645 /* TradPlusAdInterstitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradPlusAdInterstitialViewController.xib; sourceTree = "<group>"; };
 		5AF1AC602705B830006E2645 /* TradPlusAdInterstitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradPlusAdInterstitialViewController.h; sourceTree = "<group>"; };
@@ -123,30 +128,19 @@
 			isa = PBXGroup;
 			children = (
 				048B0229248BF2650003F53E /* Info.plist */,
-				5A2F261926CB57C300CAD358 /* TPNativeTemplate.h */,
-				5A2F261726CB57C300CAD358 /* TPNativeTemplate.m */,
-				5A2F261826CB57C300CAD358 /* TPNativeTemplate.xib */,
+				5AF1AC602705B830006E2645 /* TradPlusAdInterstitialViewController.h */,
+				5AF1AC612705B830006E2645 /* TradPlusAdInterstitialViewController.m */,
+				5AF1AC5F2705B830006E2645 /* TradPlusAdInterstitialViewController.xib */,
+				5AA48FC62D9D0A4F007D1B96 /* other */,
 				5A0C1B9C2CBFA614007CF80C /* TPDemoTool.h */,
 				5A0C1B9D2CBFA614007CF80C /* TPDemoTool.m */,
 				048B0243248BF4540003F53E /* AppDelegate.h */,
 				048B023A248BF4540003F53E /* AppDelegate.m */,
 				048B023E248BF4540003F53E /* MsADTableViewController.h */,
 				048B0245248BF4540003F53E /* MsADTableViewController.m */,
-				5A98A01826CB58D200C11B85 /* TradPlusAdNativeViewController.h */,
-				5A98A01926CB58D200C11B85 /* TradPlusAdNativeViewController.m */,
-				5A98A01A26CB58D200C11B85 /* TradPlusAdNativeViewController.xib */,
-				5AFA31EF26F5B0E800F21A36 /* TradPlusAdBannerViewController.h */,
-				5AFA31F126F5B0E800F21A36 /* TradPlusAdBannerViewController.m */,
-				5AFA31F026F5B0E800F21A36 /* TradPlusAdBannerViewController.xib */,
-				5AF1AC602705B830006E2645 /* TradPlusAdInterstitialViewController.h */,
-				5AF1AC612705B830006E2645 /* TradPlusAdInterstitialViewController.m */,
-				5AF1AC5F2705B830006E2645 /* TradPlusAdInterstitialViewController.xib */,
-				5AF1AC652705B8A7006E2645 /* TradPlusAdRewardedViewController.h */,
-				5AF1AC662705B8A7006E2645 /* TradPlusAdRewardedViewController.m */,
-				5AF1AC642705B8A7006E2645 /* TradPlusAdRewardedViewController.xib */,
-				5AF1AC6B2705B91B006E2645 /* TradPlusAdSplashViewController.h */,
-				5AF1AC6A2705B91B006E2645 /* TradPlusAdSplashViewController.m */,
-				5AF1AC6C2705B91B006E2645 /* TradPlusAdSplashViewController.xib */,
+				5AA48FC12D9CEA96007D1B96 /* TPListViewController.h */,
+				5AA48FC22D9CEA96007D1B96 /* TPListViewController.m */,
+				5AA48FC32D9CEA96007D1B96 /* TPListViewController.xib */,
 			);
 			path = TradPlusDemo;
 			sourceTree = "<group>";
@@ -169,6 +163,28 @@
 				2AA628CDDCE0A90002571385 /* Pods_TradPlusDemo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5AA48FC62D9D0A4F007D1B96 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				5A98A01826CB58D200C11B85 /* TradPlusAdNativeViewController.h */,
+				5A98A01926CB58D200C11B85 /* TradPlusAdNativeViewController.m */,
+				5A98A01A26CB58D200C11B85 /* TradPlusAdNativeViewController.xib */,
+				5AFA31EF26F5B0E800F21A36 /* TradPlusAdBannerViewController.h */,
+				5AFA31F126F5B0E800F21A36 /* TradPlusAdBannerViewController.m */,
+				5AFA31F026F5B0E800F21A36 /* TradPlusAdBannerViewController.xib */,
+				5AF1AC652705B8A7006E2645 /* TradPlusAdRewardedViewController.h */,
+				5AF1AC662705B8A7006E2645 /* TradPlusAdRewardedViewController.m */,
+				5AF1AC642705B8A7006E2645 /* TradPlusAdRewardedViewController.xib */,
+				5AF1AC6B2705B91B006E2645 /* TradPlusAdSplashViewController.h */,
+				5AF1AC6A2705B91B006E2645 /* TradPlusAdSplashViewController.m */,
+				5AF1AC6C2705B91B006E2645 /* TradPlusAdSplashViewController.xib */,
+				5A2F261926CB57C300CAD358 /* TPNativeTemplate.h */,
+				5A2F261726CB57C300CAD358 /* TPNativeTemplate.m */,
+				5A2F261826CB57C300CAD358 /* TPNativeTemplate.xib */,
+			);
+			path = other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AA48FC52D9CEA96007D1B96 /* TPListViewController.xib in Resources */,
 				5A2F261B26CB57C300CAD358 /* TPNativeTemplate.xib in Resources */,
 				5AF1AC6E2705B91B006E2645 /* TradPlusAdSplashViewController.xib in Resources */,
 				048B024C248BF4540003F53E /* Main.storyboard in Resources */,
@@ -310,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AA48FC42D9CEA96007D1B96 /* TPListViewController.m in Sources */,
 				048B024D248BF4540003F53E /* AppDelegate.m in Sources */,
 				5A0C1B9E2CBFA615007CF80C /* TPDemoTool.m in Sources */,
 				048B0253248BF4540003F53E /* MsADTableViewController.m in Sources */,
