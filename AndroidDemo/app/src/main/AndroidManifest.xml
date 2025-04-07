@@ -19,27 +19,33 @@
             android:required="false" />
 
         <activity
-            android:name=".RewardActivity"
+            android:name=".PangleInterstitial"
             android:exported="false"
-            android:label="@string/title_activity_reward"
+            android:label="@string/title_activity_pangle"
             android:theme="@style/Theme.TradPlusDemo" />
 
         <activity
-            android:name=".InterstitialActivity"
+            android:name=".GoogleInterstitial"
             android:exported="false"
-            android:label="@string/title_activity_interstitial"
+            android:label="@string/title_activity_google"
             android:theme="@style/Theme.TradPlusDemo" />
 
         <activity
-            android:name=".NativeActivity"
+            android:name=".MtgInterstitial"
             android:exported="false"
-            android:label="@string/title_activity_native"
+            android:label="@string/title_activity_mtg"
             android:theme="@style/Theme.TradPlusDemo" />
 
         <activity
-            android:name=".BannerActivity"
+            android:name=".VungleInterstitial"
             android:exported="false"
-            android:label="@string/title_activity_Banner"
+            android:label="@string/title_activity_vungle"
+            android:theme="@style/Theme.TradPlusDemo" />
+
+        <activity
+            android:name=".BigoInterstitial"
+            android:exported="false"
+            android:label="@string/title_activity_bigo"
             android:theme="@style/Theme.TradPlusDemo" />
 
         <activity

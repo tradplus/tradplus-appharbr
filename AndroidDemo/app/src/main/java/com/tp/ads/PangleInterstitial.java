@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.appharbr.adapter.custom.AppHarbrCustomAdapter;
-import com.appharbr.sdk.adapter.AdQualityAdapterManager;
 import com.appharbr.sdk.adapter.AdQualityListener;
 import com.appharbr.sdk.adapter.DirectMediationAdNotVerifyReason;
 import com.appharbr.sdk.adapter.VerificationStatus;
@@ -18,18 +17,19 @@ import com.appharbr.sdk.engine.AdBlockReason;
 import com.appharbr.sdk.engine.adformat.AdFormat;
 import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
-import com.tradplus.ads.mgr.reward.TPCustomRewardAd;
-import com.tradplus.ads.open.reward.RewardAdListener;
-import com.tradplus.ads.open.reward.TPReward;
+import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
+import com.tradplus.ads.open.interstitial.InterstitialAdListener;
+import com.tradplus.ads.open.interstitial.TPInterstitial;
 
 import java.util.HashMap;
 
-public class RewardActivity extends Activity{
+
+public class PangleInterstitial extends Activity {
 
     private static final String TAG = "AppHarbrSDK";
-    private TPReward tpReward;
+    private TPInterstitial tpInterstitial;
     private AppHarbrCustomAdapter appHarbrCustomAdapter;
-    private TPCustomRewardAd tpCustomRewardAd;
+    private TPCustomInterstitialAd customInterstitialAd;
     private Object networkObject;
     private TextView textView;
     private int adNetworkId;
@@ -43,29 +43,30 @@ public class RewardActivity extends Activity{
 
         initAndRequestAd();
 
-        findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_verifyAd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(tpCustomRewardAd);
+                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(customInterstitialAd);
                 if (appHarbrCustomAdapter != null && networkObject != null) {
                     Log.i(TAG, "verifyAd networkObject: " + networkObject);
-                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.REWARDED, "", adNetworkId, "", "",
+                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
                             "", "", new HashMap<>(), adQualityListener);
                     textView.setText("-----verificationStatus : " + verificationStatus.name() + "-----");
                 }
             }
         });
 
-        findViewById(R.id.btn_show).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.btn_displayAd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tpCustomRewardAd != null) {
+                if (customInterstitialAd != null) {
                     if (appHarbrCustomAdapter != null && networkObject != null) {
-                        appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.REWARDED, "", adNetworkId, "", "",
+                        appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
                                 "", "", new HashMap<>(), adQualityListener);
                     }
                     // show ad
-                    tpCustomRewardAd.showAd(RewardActivity.this, "");
+                    customInterstitialAd.showAd(PangleInterstitial.this,"");
                 }
             }
         });
@@ -77,32 +78,21 @@ public class RewardActivity extends Activity{
         textView.setText("-----initialize AppHarbr-----");
 
 
-        tpReward  = new TPReward(this, AdUnitIds.reward);
-        tpReward.setAutoLoadCallback(true);
-        tpReward.setAdListener(adListener);
-        tpReward.loadAd();
+        tpInterstitial = new TPInterstitial(this, AdUnitIds.pangle_interstitial);
+        tpInterstitial.setAutoLoadCallback(true);
+        tpInterstitial.setAdListener(adListener);
+        tpInterstitial.loadAd();
     }
 
-    private final RewardAdListener adListener = new RewardAdListener() {
+    private final InterstitialAdListener adListener = new InterstitialAdListener() {
         @Override
         public void onAdLoaded(TPAdInfo tpAdInfo) {
             adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
-            tpCustomRewardAd = tpReward.getCustomRewardAd();
-            textView.setText("-----ad onAdLoaded , can verifyAd-----");
-        }
+            customInterstitialAd = tpInterstitial.getCustomInterstitialAd();
+            findViewById(R.id.btn_verifyAd).setClickable(true);
+            textView.setText("-----ad onAdLoaded , verifyAd need to wait-----");
 
-        @Override
-        public void onAdClicked(TPAdInfo tpAdInfo) {
-            Log.i(TAG, "onAdClicked: ");
-            if (appHarbrCustomAdapter != null && networkObject != null) {
-                appHarbrCustomAdapter.onAdClicked(networkObject, AdFormat.REWARDED);
-            }
-        }
-
-        @Override
-        public void onAdImpression(TPAdInfo tpAdInfo) {
-            Log.i(TAG, "onAdImpression: ");
         }
 
         @Override
@@ -111,15 +101,29 @@ public class RewardActivity extends Activity{
         }
 
         @Override
-        public void onAdClosed(TPAdInfo tpAdInfo) {
-            Log.i(TAG, "onAdClosed: ");
+        public void onAdImpression(TPAdInfo tpAdInfo) {
+            Log.i(TAG, "onAdImpression: ");
+        }
+
+        @Override
+        public void onAdClicked(TPAdInfo tpAdInfo) {
+            Log.i(TAG, "onAdClicked: ");
             if (appHarbrCustomAdapter != null && networkObject != null) {
-                appHarbrCustomAdapter.onAdClosed(networkObject, AdFormat.REWARDED);
+                appHarbrCustomAdapter.onAdClicked(networkObject, AdFormat.INTERSTITIAL);
             }
         }
 
         @Override
-        public void onAdReward(TPAdInfo tpAdInfo) {
+        public void onAdClosed(TPAdInfo tpAdInfo) {
+            Log.i(TAG, "onAdClosed: ");
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClosed(networkObject, AdFormat.INTERSTITIAL);
+            }
+
+        }
+
+        @Override
+        public void onAdVideoError(TPAdInfo tpAdInfo, TPAdError tpAdError) {
 
         }
 
@@ -130,11 +134,6 @@ public class RewardActivity extends Activity{
 
         @Override
         public void onAdVideoEnd(TPAdInfo tpAdInfo) {
-
-        }
-
-        @Override
-        public void onAdVideoError(TPAdInfo tpAdInfo, TPAdError tpAdError) {
 
         }
     };

@@ -4,36 +4,56 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Interstitial Type"
+        android:textAllCaps="true"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginLeft="5dp"
+        >
+
+    </TextView>
 
     <Button
-        android:id="@+id/btn_interstitial"
+        android:id="@+id/btn_google"
         android:layout_width="200.0dip"
         android:layout_height="50.0dip"
-        android:text="Interstitial"
+        android:text="Google"
         android:textAllCaps="false"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/btn_rewarded"
+        android:id="@+id/btn_pangle"
         android:layout_width="200.0dip"
         android:layout_height="50.0dip"
-        android:text="RewardedVideo"
+        android:text="Pangle"
         android:textAllCaps="false"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/btn_banner"
+        android:id="@+id/btn_mtg"
         android:layout_width="200.0dip"
         android:layout_height="50.0dip"
-        android:text="Banner"
+        android:text="MTG"
         android:textAllCaps="false"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/btn_native"
+        android:id="@+id/btn_vungle"
         android:layout_width="200.0dip"
         android:layout_height="50.0dip"
-        android:text="Native"
+        android:text="Vungle"
+        android:textAllCaps="false"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_bigo"
+        android:layout_width="200.0dip"
+        android:layout_height="50.0dip"
+        android:text="Bigo"
         android:textAllCaps="false"
         android:textSize="16sp" />
 

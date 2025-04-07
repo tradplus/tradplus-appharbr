@@ -1,9 +1,10 @@
 package com.tp.ads;
 
 public class AdUnitIds {
-
-    public static final String interstitial = "788E1FCB278B0D7E97282231154458B7";
-    public static final String reward = "702208A872E622C1729FC621025D4B1D";
-    public static final String banner = "E89A890466180B9215487530A8EB519F";
-    public static final String nativeAd  = "04D8F97E539A50D52E01BA0898135E02";
+public static final String appId = "0F4DF773BDF876FE8B519897BB1A880A";
+    public static final String google_interstitial = "856B9A42B0A42459BA8A24E663D481FE";
+    public static final String pangle_interstitial = "00E271D4E68469C49F2B5FD7148212B0";
+    public static final String mtg_interstitial = "E7C34757394DFF0E097ABA5BFA4AE4FC";
+    public static final String vungle_interstitial  = "C28FE0D46A024C441BF82236E28BBB36";
+    public static final String bigo_interstitial  = "AE26B7871E0E6683830605D4BDD7B322";
 }

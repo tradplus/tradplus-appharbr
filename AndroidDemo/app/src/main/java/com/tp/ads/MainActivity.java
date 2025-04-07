@@ -15,11 +15,12 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        bindButton(R.id.btn_rewarded,RewardActivity.class);
-        bindButton(R.id.btn_interstitial,InterstitialActivity.class);
-        bindButton(R.id.btn_native,NativeActivity.class);
-        bindButton(R.id.btn_banner,BannerActivity.class);
+        AppHarbrAdapter.getInstance().initializeSDK(this);
+        bindButton(R.id.btn_google, GoogleInterstitial.class);
+        bindButton(R.id.btn_pangle, PangleInterstitial.class);
+        bindButton(R.id.btn_vungle, VungleInterstitial.class);
+        bindButton(R.id.btn_mtg, MtgInterstitial.class);
+        bindButton(R.id.btn_bigo, BigoInterstitial.class);
     }
 
     private void bindButton(@IdRes int id, final Class clz) {

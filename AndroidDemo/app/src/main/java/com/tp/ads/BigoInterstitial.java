@@ -10,19 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.appharbr.adapter.custom.AppHarbrCustomAdapter;
-import com.appharbr.sdk.adapter.AdQualityAdapterManager;
 import com.appharbr.sdk.adapter.AdQualityListener;
 import com.appharbr.sdk.adapter.DirectMediationAdNotVerifyReason;
 import com.appharbr.sdk.adapter.VerificationStatus;
-import com.appharbr.sdk.configuration.AHSdkConfiguration;
-import com.appharbr.sdk.configuration.AHSdkDebug;
 import com.appharbr.sdk.engine.AdBlockReason;
-import com.appharbr.sdk.engine.InitializationFailureReason;
 import com.appharbr.sdk.engine.adformat.AdFormat;
-import com.appharbr.sdk.engine.listeners.OnAppHarbrInitializationCompleteListener;
 import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
-import com.tradplus.ads.base.config.request.BiddingRequestInfo;
 import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
 import com.tradplus.ads.open.interstitial.InterstitialAdListener;
 import com.tradplus.ads.open.interstitial.TPInterstitial;
@@ -30,7 +24,7 @@ import com.tradplus.ads.open.interstitial.TPInterstitial;
 import java.util.HashMap;
 
 
-public class InterstitialActivity extends Activity {
+public class BigoInterstitial extends Activity {
 
     private static final String TAG = "AppHarbrSDK";
     private TPInterstitial tpInterstitial;
@@ -49,7 +43,7 @@ public class InterstitialActivity extends Activity {
 
         initAndRequestAd();
 
-        findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_verifyAd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 networkObject = AppHarbrAdapter.getInstance().getNetworkObject(customInterstitialAd);
@@ -63,7 +57,7 @@ public class InterstitialActivity extends Activity {
         });
 
 
-        findViewById(R.id.btn_show).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_displayAd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (customInterstitialAd != null) {
@@ -72,7 +66,7 @@ public class InterstitialActivity extends Activity {
                                 "", "", new HashMap<>(), adQualityListener);
                     }
                     // show ad
-                    customInterstitialAd.showAd(InterstitialActivity.this,"");
+                    customInterstitialAd.showAd(BigoInterstitial.this,"");
                 }
             }
         });
@@ -84,7 +78,7 @@ public class InterstitialActivity extends Activity {
         textView.setText("-----initialize AppHarbr-----");
 
 
-        tpInterstitial = new TPInterstitial(this, AdUnitIds.interstitial);
+        tpInterstitial = new TPInterstitial(this, AdUnitIds.bigo_interstitial);
         tpInterstitial.setAutoLoadCallback(true);
         tpInterstitial.setAdListener(adListener);
         tpInterstitial.loadAd();
@@ -96,7 +90,8 @@ public class InterstitialActivity extends Activity {
             adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
             customInterstitialAd = tpInterstitial.getCustomInterstitialAd();
-            textView.setText("-----ad onAdLoaded , can verifyAd-----");
+            findViewById(R.id.btn_verifyAd).setClickable(true);
+            textView.setText("-----ad onAdLoaded , verifyAd need to wait-----");
 
         }
 

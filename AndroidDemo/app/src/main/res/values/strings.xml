@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">TradPlusDemo</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_reward">RewardActivity</string>
-    <string name="title_activity_interstitial">InterstitialActivity</string>
-    <string name="title_activity_native">NativeActivity</string>
-    <string name="title_activity_Banner">BannerActivity</string>
+    <string name="title_activity_google">Google Admob Interstitial</string>
+    <string name="title_activity_pangle">Pangle Interstitial</string>
+    <string name="title_activity_mtg">MTG Interstitial</string>
+    <string name="title_activity_vungle">Vungle Interstitial</string>
+    <string name="title_activity_bigo">Bigo Interstitial</string>
 </resources>

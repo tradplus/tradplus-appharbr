@@ -95,6 +95,10 @@ dependencies {
     implementation 'com.mbridge.msdk.oversea:newinterstitial:16.8.31'
     implementation 'com.mbridge.msdk.oversea:mbbid:16.8.31'
 
+    // Liftoff
+    implementation 'com.tradplusad:tradplus-vunglex:7.12.5.10.1'
+    implementation 'com.vungle:vungle-ads:7.4.0'
+
     // Bigo
     implementation 'com.bigossp:bigo-ads:4.9.1'
     implementation 'com.tradplusad:tradplus-bigo:57.12.5.10.1'

@@ -14,18 +14,19 @@
     </TextView>
 
     <Button
-        android:id="@+id/btn_load"
+        android:id="@+id/btn_verifyAd"
         android:layout_width="200.0dip"
         android:layout_height="50.0dip"
-        android:text="can verifyAd"
+        android:text="VerifyAd"
         android:textAllCaps="false"
+        android:clickable="false"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/btn_show"
+        android:id="@+id/btn_displayAd"
         android:layout_width="200.0dip"
         android:layout_height="50.0dip"
-        android:text="can show"
+        android:text="onDisplayAd"
         android:textAllCaps="false"
         android:textSize="16sp" />
 

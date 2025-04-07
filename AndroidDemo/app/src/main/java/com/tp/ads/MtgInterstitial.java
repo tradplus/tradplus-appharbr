@@ -4,115 +4,100 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.appharbr.adapter.custom.AppHarbrCustomAdapter;
-import com.appharbr.sdk.adapter.AdQualityAdapterManager;
 import com.appharbr.sdk.adapter.AdQualityListener;
-import com.appharbr.sdk.adapter.Constant;
 import com.appharbr.sdk.adapter.DirectMediationAdNotVerifyReason;
 import com.appharbr.sdk.adapter.VerificationStatus;
 import com.appharbr.sdk.engine.AdBlockReason;
 import com.appharbr.sdk.engine.adformat.AdFormat;
 import com.tradplus.ads.base.bean.TPAdError;
 import com.tradplus.ads.base.bean.TPAdInfo;
-import com.tradplus.ads.base.bean.TPBaseAd;
-import com.tradplus.ads.open.banner.BannerAdListener;
-import com.tradplus.ads.open.banner.TPBanner;
+import com.tradplus.ads.mgr.interstitial.TPCustomInterstitialAd;
+import com.tradplus.ads.open.interstitial.InterstitialAdListener;
+import com.tradplus.ads.open.interstitial.TPInterstitial;
 
 import java.util.HashMap;
 
-public class BannerActivity extends Activity{
+
+public class MtgInterstitial extends Activity {
 
     private static final String TAG = "AppHarbrSDK";
+    private TPInterstitial tpInterstitial;
     private AppHarbrCustomAdapter appHarbrCustomAdapter;
-    private TPBaseAd tpBaseAd;
+    private TPCustomInterstitialAd customInterstitialAd;
     private Object networkObject;
     private TextView textView;
     private int adNetworkId;
-    private FrameLayout adContainer;
-    private TPBanner tpBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_banner);
+        setContentView(R.layout.activity_video);
 
         appHarbrCustomAdapter = AppHarbrAdapter.getInstance().initializeSDK(this);
-        initRequestAd();
 
-        HashMap<String, Object> extraData = new HashMap<>();
-        extraData.put(Constant.AD_SIZE_WIDTH,320);
-        extraData.put(Constant.AD_SIZE_HEIGHT,50);
+        initAndRequestAd();
 
-        findViewById(R.id.btn_load).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_verifyAd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(tpBaseAd);
+                networkObject = AppHarbrAdapter.getInstance().getNetworkObject(customInterstitialAd);
                 if (appHarbrCustomAdapter != null && networkObject != null) {
                     Log.i(TAG, "verifyAd networkObject: " + networkObject);
-                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.BANNER, "", adNetworkId, "", "",
-                            "", "", extraData, adQualityListener);
+                    VerificationStatus verificationStatus = appHarbrCustomAdapter.verifyAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
+                            "", "", new HashMap<>(), adQualityListener);
                     textView.setText("-----verificationStatus : " + verificationStatus.name() + "-----");
                 }
             }
         });
 
-        findViewById(R.id.btn_show).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.btn_displayAd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (networkObject != null) {
+                if (customInterstitialAd != null) {
                     if (appHarbrCustomAdapter != null && networkObject != null) {
                         appHarbrCustomAdapter.onDisplayAd(networkObject, AdFormat.INTERSTITIAL, "", adNetworkId, "", "",
-                                "", "", extraData, adQualityListener);
+                                "", "", new HashMap<>(), adQualityListener);
                     }
-
                     // show ad
-                    if (networkObject instanceof View) {
-                        View renderView = (View) networkObject;
-                        if (renderView.getParent() != null) {
-                            ((ViewGroup) renderView.getParent()).removeView(renderView);
-                        }
-                        adContainer.addView(renderView);
-                    }
-
+                    customInterstitialAd.showAd(MtgInterstitial.this,"");
                 }
             }
         });
 
     }
 
-    private void initRequestAd() {
+    private void initAndRequestAd() {
         textView = findViewById(R.id.tv_ad);
         textView.setText("-----initialize AppHarbr-----");
 
-        adContainer = findViewById(R.id.ad_banner_container);
-        tpBanner = new TPBanner(BannerActivity.this);
-        tpBanner.closeAutoShow();
-        tpBanner.setAdListener(mBannerAdListener);
-        tpBanner.loadAd(AdUnitIds.banner);
+
+        tpInterstitial = new TPInterstitial(this, AdUnitIds.mtg_interstitial);
+        tpInterstitial.setAutoLoadCallback(true);
+        tpInterstitial.setAdListener(adListener);
+        tpInterstitial.loadAd();
     }
 
-    private final BannerAdListener mBannerAdListener = new BannerAdListener() {
+    private final InterstitialAdListener adListener = new InterstitialAdListener() {
         @Override
         public void onAdLoaded(TPAdInfo tpAdInfo) {
             adNetworkId = AppHarbrAdapter.getInstance().getAdSdkId(tpAdInfo.adNetworkId);
             Log.i(TAG, "onAdLoaded: " + adNetworkId);
-            tpBaseAd = tpBanner.getBannerAd();
-            textView.setText("-----ad onAdLoaded , can verifyAd-----");
+            customInterstitialAd = tpInterstitial.getCustomInterstitialAd();
+            findViewById(R.id.btn_verifyAd).setClickable(true);
+            textView.setText("-----ad onAdLoaded , verifyAd need to wait-----");
+
         }
 
         @Override
-        public void onAdClicked(TPAdInfo tpAdInfo) {
-            Log.i(TAG, "onAdClicked: ");
-            if (appHarbrCustomAdapter != null && networkObject != null) {
-                appHarbrCustomAdapter.onAdClicked(networkObject,AdFormat.BANNER);
-            }
+        public void onAdFailed(TPAdError tpAdError) {
+
         }
 
         @Override
@@ -121,25 +106,34 @@ public class BannerActivity extends Activity{
         }
 
         @Override
-        public void onAdShowFailed(TPAdError error, TPAdInfo tpAdInfo) {
-
-        }
-
-        @Override
-        public void onAdLoadFailed(TPAdError error) {
-            Log.i(TAG, "onAdLoadFailed: ");
+        public void onAdClicked(TPAdInfo tpAdInfo) {
+            Log.i(TAG, "onAdClicked: ");
+            if (appHarbrCustomAdapter != null && networkObject != null) {
+                appHarbrCustomAdapter.onAdClicked(networkObject, AdFormat.INTERSTITIAL);
+            }
         }
 
         @Override
         public void onAdClosed(TPAdInfo tpAdInfo) {
             Log.i(TAG, "onAdClosed: ");
             if (appHarbrCustomAdapter != null && networkObject != null) {
-                appHarbrCustomAdapter.onAdClosed(networkObject,AdFormat.BANNER);
+                appHarbrCustomAdapter.onAdClosed(networkObject, AdFormat.INTERSTITIAL);
             }
+
         }
 
         @Override
-        public void onBannerRefreshed() {
+        public void onAdVideoError(TPAdInfo tpAdInfo, TPAdError tpAdError) {
+
+        }
+
+        @Override
+        public void onAdVideoStart(TPAdInfo tpAdInfo) {
+
+        }
+
+        @Override
+        public void onAdVideoEnd(TPAdInfo tpAdInfo) {
 
         }
     };

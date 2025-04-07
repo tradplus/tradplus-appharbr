@@ -118,6 +118,9 @@ public class AppHarbrAdapter {
             case "57":
                 adSdkId = AdSdk.BIGO_ADS.getId();
                 break;
+            case "7":
+                adSdkId = AdSdk.VUNGLE.getId();
+                break;
         }
         Log.i(TAG, "adSdkId: " + adSdkId);
         return adSdkId;
