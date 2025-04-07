@@ -7,11 +7,7 @@
 //
 
 #import "MsADTableViewController.h"
-#import "TradPlusAdNativeViewController.h"
-#import "TradPlusAdBannerViewController.h"
-#import "TradPlusAdInterstitialViewController.h"
-#import "TradPlusAdRewardedViewController.h"
-#import "TradPlusAdSplashViewController.h"
+#import "TPListViewController.h"
 
 @interface MsADTableViewController ()
 
@@ -35,7 +31,7 @@
     rect.size.height = 20;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:rect];
     
-    self.titleArray = @[@"Native",@"Banner",@"Interstitial",@"Rewarded",@"Splash"];
+    self.titleArray = @[@"Interstitial"];
 }
 
 #pragma mark - Table view data source
@@ -61,15 +57,9 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    if(indexPath.section == 0
-       && indexPath.row < self.titleArray.count)
+    if(indexPath.row < self.titleArray.count)
     {
         cell.textLabel.text = self.titleArray[indexPath.row];
-    }
-    else if(indexPath.section == 1
-            && indexPath.row < self.titleList.count)
-    {
-        cell.textLabel.text = self.titleList[indexPath.row];
     }
     cell.textLabel.textColor = [UIColor colorWithRed:0.42 green:0.66 blue:0.85 alpha:1];
     cell.detailTextLabel.textColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1];
@@ -86,36 +76,34 @@
     {
         switch (indexPath.row)
         {
-            case 0://Native
+            case 0://Interstitial
             {
-                detailViewController = [[TradPlusAdNativeViewController alloc] initWithNibName:@"TradPlusAdNativeViewController" bundle:nil];
-                break;
+                detailViewController = [[TPListViewController alloc] initWithNibName:@"TPListViewController" bundle:nil];
             }
-            case 1://Banner
-            {
-                detailViewController = [[TradPlusAdBannerViewController alloc] initWithNibName:@"TradPlusAdBannerViewController" bundle:nil];
-                break;
-            }
-            case 2://Interstitial
-            {
-                detailViewController = [[TradPlusAdInterstitialViewController alloc] initWithNibName:@"TradPlusAdInterstitialViewController" bundle:nil];
-                break;
-            }
-            case 3://Rewarded
-            {
-                detailViewController = [[TradPlusAdRewardedViewController alloc] initWithNibName:@"TradPlusAdRewardedViewController" bundle:nil];
-                break;
-            }
-            case 4://Splash
-            {
-                detailViewController = [[TradPlusAdSplashViewController alloc] initWithNibName:@"TradPlusAdSplashViewController" bundle:nil];
-                break;
-            }
+//            case 2://Native
+//            {
+//                detailViewController = [[TradPlusAdNativeViewController alloc] initWithNibName:@"TradPlusAdNativeViewController" bundle:nil];
+//                break;
+//            }
+//            case 1://Banner
+//            {
+//                detailViewController = [[TradPlusAdBannerViewController alloc] initWithNibName:@"TradPlusAdBannerViewController" bundle:nil];
+//                break;
+//            }
+//            case 3://Rewarded
+//            {
+//                detailViewController = [[TradPlusAdRewardedViewController alloc] initWithNibName:@"TradPlusAdRewardedViewController" bundle:nil];
+//                break;
+//            }
+//            case 4://Splash
+//            {
+//                detailViewController = [[TradPlusAdSplashViewController alloc] initWithNibName:@"TradPlusAdSplashViewController" bundle:nil];
+//                break;
+//            }
         }
     }
     if(detailViewController != nil)
     {
-        detailViewController.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
 }

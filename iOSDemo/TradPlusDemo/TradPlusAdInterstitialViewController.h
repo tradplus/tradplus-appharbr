@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TradPlusAdInterstitialViewController : UIViewController
 
+@property (nonatomic,copy)NSString *pid;
+@property (nonatomic,copy)NSString *name;
 @end
 
 NS_ASSUME_NONNULL_END
